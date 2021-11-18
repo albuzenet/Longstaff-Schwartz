@@ -1,6 +1,4 @@
 # Memoire_Monte_Carlos
-Repo pour mon mémoire du Master in Finance
-
 
 The option file contains class representing derivative options <br>
 The process file contains class representing stocastic models <br>
