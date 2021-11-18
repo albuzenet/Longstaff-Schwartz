@@ -4,15 +4,15 @@ from numpy.polynomial import Polynomial
 from scipy.stats import norm
 
 from option import Option
-from process import StocasticProcess
+from process import StochasticProcess
 
 
-def monte_carlo_simulation(option: Option, process: StocasticProcess, n: int, m: int, alpha: float=0.05) -> float:            
+def monte_carlo_simulation(option: Option, process: StochasticProcess, n: int, m: int, alpha: float=0.05) -> float:            
     """
     Given an option and a process followed by the underlying, calculate the classic monte carlo price estimator
     """
     # n = number of path, m = number of discretization points
-    s = process.simulate(T=option.T, n=n, m=m)
+    s = process.simulate(s0=option.s0, v0=option.v0, T=option.T, n=n, m=m)
     st = s[-1]
     payoffs = option.payoff(s=st) 
     
@@ -31,13 +31,13 @@ def monte_carlo_simulation(option: Option, process: StocasticProcess, n: int, m:
     return np.round(price, 2)
 
 
-def monte_carlo_simulation_LS(option: Option, process: StocasticProcess, n: int, m: int, alpha: float=0.05) -> float:    
+def monte_carlo_simulation_LS(option: Option, process: StochasticProcess, n: int, m: int, alpha: float=0.05) -> float:    
     """
     Given an option and a process followed by the underlying, calculate the option value using the Longstaff-Schwartz algorithme 
     """
     # n = number of path, m = number of discretization points
-    np.random.seed(0)
-    s = process.simulate(T=option.T, n=n, m=m)
+
+    s = process.simulate(s0=option.s0, v0=option.v0, T=option.T, n=n, m=m)
 
     payoffs = option.payoff(s=s)
 
@@ -56,36 +56,36 @@ def monte_carlo_simulation_LS(option: Option, process: StocasticProcess, n: int,
 
     print(f"The price of {option!r} = {round(price, 4)}")
 
-def black_scholes_merton(s0, K, T, r, sigma, call=True):
+def black_scholes_merton(r, sigma, option: Option):
     """
     Calculate the price of vanilla options using BSM formula 
     """
-    d1 = (np.log(s0 / K) + (r + sigma**2 / 2) * T) / (sigma * np.sqrt(T))
-    d2 = d1 - sigma * np.sqrt(T)
+    d1 = (np.log(option.s0 / option.K) + (r + sigma**2 / 2) * option.T) / (sigma * np.sqrt(option.T))
+    d2 = d1 - sigma * np.sqrt(option.T)
 
-    price = s0 * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d2)
-    price = price if call else price - s0 + K * np.exp(-r * T)
+    price = option.s0 * norm.cdf(d1) - option.K * np.exp(-r * option.T) * norm.cdf(d2)
+    price = price if option.call else price - option.s0 + option.K * np.exp(-r * option.T)
 
     return np.round(price, 2)
 
 
-def crr_pricing(s0=100, K=100, T=1, r=.1, sigma=.2, n = 25000):
+def crr_pricing(r=.1, sigma=.2, option: Option=Option(s0=100, T=1, K=100, call=False), n = 25000):
     """
     Calculate the price of an americain option using a backward tree model
     """
-    dt = T / n                            
+    dt = option.T / n                            
     u = np.exp(sigma * np.sqrt(dt))                
     d = 1 / u                                   
     a = np.exp(r * dt)    
     p = (a - d)/ (u - d)  
     q = 1 - p         
 
-    st = np.array( [s0 * u**i * d**(n - i) for i in range(n + 1)] ) 
-    v = np.maximum(K - st, 0)
+    st = np.array( [option.s0 * u**i * d**(n - i) for i in range(n + 1)] ) 
+    v = np.maximum(option.K - st, 0)
 
     for _ in range(n):
         v[:-1] = np.exp(-r * dt) * (p * v[1:] + q * v[:-1])   
         st = st * u                   
-        v = np.maximum(v, K - st)
+        v = np.maximum(v, option.K - st)
         
     return np.round(v[0], 3)

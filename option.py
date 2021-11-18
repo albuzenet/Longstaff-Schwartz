@@ -6,8 +6,10 @@ class Option:
     """ 
     Representation of an option derivative
     """
+    s0: float
     T: int
     K: int
+    v0: float = None
     call: bool = True
 
     def payoff(self, s: np.ndarray) -> np.ndarray:
