@@ -1,20 +1,12 @@
-```python
-import numpy as np 
-import pandas as pd 
-import matplotlib.pyplot as plt 
-%matplotlib inline
-np.random.seed(4)
+# Longstaff-Schwartz Americain option pricing
 
-from option import Option 
-from process import GeometricBrownianMotion, HestonProcess
-from pricing import monte_carlo_simulation, monte_carlo_simulation_LS, black_scholes_merton, crr_pricing
-```
+American option pricing using Longstaff Schwartz algorithm under the Heston model. <br>
 
 The option file contains class representing derivative options <br>
 The process file contains class representing stocastic models <br>
 The pricing file contains functions for pricing derivatives using different techniques
 
-# Classic Monte Carlo
+## Classic Monte Carlo
 
 First let's use the GeometricBrownianMotion class to simulation some GBM paths. This class use the available closed form formula of the GBM stocastic process
 $$ 
@@ -119,7 +111,7 @@ print(f'Theorical price of the put option = {put_price}')
 
 Very close !
 
-# Longstaff-Schwartz applied to the Heston model 
+## Longstaff-Schwartz applied to the Heston model 
 
 We will now try to estimate the price of an american option in the Heston framework:<br><br>
 
