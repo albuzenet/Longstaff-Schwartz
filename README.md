@@ -11,9 +11,7 @@ The pricing file contains functions for pricing derivatives using different tech
 First let's use the GeometricBrownianMotion class to simulation some GBM paths. This class use the available closed form formula of the GBM stocastic process <br>
 
 $$ 
-\begin{cases}
 dS_t = \mu S_t dt + \sigma S_t dW^1_t \\
-\end{cases}
 $$
 
 <br>
