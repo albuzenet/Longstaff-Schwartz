@@ -9,9 +9,15 @@ The pricing file contains functions for pricing derivatives using different tech
 ## Classic Monte Carlo
 
 First let's use the GeometricBrownianMotion class to simulation some GBM paths. This class use the available closed form formula of the GBM stocastic process <br>
+
 $$ 
-dS_t = \mu S_t dt + \sigma S_t dW_t
+\begin{cases}
+dS_t = r S_t dt + \sqrt{v_t} S_t dW^1_t \\
+dv_t = \kappa (\theta - v_t) dt + \eta \sqrt{v_t} dW^2_t \\
+dW^1_t dW^2_t = \rho dt
+\end{cases}
 $$
+
 <br>
 Using the solution of this SDE, we can use numpy vectorization to simulate the paths in an efficient way. This allow us to simulate a good number of paths quite rapidly
 
