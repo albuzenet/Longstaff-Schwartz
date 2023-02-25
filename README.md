@@ -210,9 +210,4 @@ print(f'The price of the put_3 option estimated via a crr tree = {crr}')
 ```
 
     The price of the put_3 option estimated via a crr tree = 4.487
-    
 
-
-```python
-
-```
