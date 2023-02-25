@@ -39,7 +39,7 @@ gmb
     Wall time: 2.99 s
     
 
-Only 5 sec to generate 200k paths
+Only few seconds to generate 200k paths
 
 Now we can display the results of the simulation. Let's plot 10 simulated GBM paths
 
@@ -151,7 +151,7 @@ heston
     Wall time: 4.59 s
     
 
-More than 10 sec for 5k paths vs 5 sec for 200k with the GMB process
+A lot longer than with the GMB process
 
 Then let's create two american put options
 
