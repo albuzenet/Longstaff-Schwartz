@@ -12,7 +12,7 @@ First let's use the GeometricBrownianMotion class to simulation some GBM paths. 
 
 $$ 
 \begin{cases}
-dS_t = r S_t dt + \sqrt{v_t} S_t dW^1_t \\
+dS_t = \mu S_t dt + \sigma S_t dW^1_t \\
 dv_t = \kappa (\theta - v_t) dt + \eta \sqrt{v_t} dW^2_t \\
 dW^1_t dW^2_t = \rho dt
 \end{cases}
