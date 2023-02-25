@@ -1,11 +1,14 @@
 from dataclasses import dataclass
-import numpy as np 
+
+import numpy as np
+
 
 @dataclass
 class Option:
-    """ 
+    """
     Representation of an option derivative
     """
+
     s0: float
     T: int
     K: int
@@ -15,4 +18,3 @@ class Option:
     def payoff(self, s: np.ndarray) -> np.ndarray:
         payoff = np.maximum(s - self.K, 0) if self.call else np.maximum(self.K - s, 0)
         return payoff
-
